@@ -16,6 +16,8 @@ interface UserPayload{
 
 const secret='abc@#1234';
 
+
+//Admin registration 
 export const register=async (req:Request,res:Response)=>{
     const {name,email,password}=req.body;
     const hashedPassword=await bcrypt.hash(password,5);
@@ -33,7 +35,7 @@ export const register=async (req:Request,res:Response)=>{
     }
 };
 
-
+//Admin Login
 export const login =async(req:Request,res:Response)=>{
     const {email,password}=req.body;
  try  { const user=await Admin.findOne({
@@ -82,7 +84,7 @@ catch(error){
 }
 }
 
-
+//User login
 export const userLogin=async(req:Request,res:Response)=>{
     const{email,password}=req.body;
     try{

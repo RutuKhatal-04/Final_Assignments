@@ -13,5 +13,5 @@ app.use('/',authroutes);
 app.use('/admin',authenticatejwt("Admin"),authroutes);
 app.use('/user',authenticatejwt("User"),authroutes)
 app.listen(PORT ,()=>{
-    console.log("Server started at port 4000",PORT);
+    console.log("Server started at port ",PORT);
 })

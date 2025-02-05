@@ -31,7 +31,7 @@ Rating.init({
     }
 },{
     sequelize,
-    tableName:"Review",
+    tableName:"Rating",
     timestamps:true
 })
 

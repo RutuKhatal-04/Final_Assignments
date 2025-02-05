@@ -20,6 +20,7 @@ const constants_1 = require("gocardless-nodejs/constants");
 const User_1 = __importDefault(require("../models/User"));
 const books_1 = __importDefault(require("../models/books"));
 const Payment_1 = __importDefault(require("../models/Payment"));
+//Logged in user can add review to book using bookid passed in params
 const addReview = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const userid = req.user.id;
     const { id } = req.params;
@@ -40,6 +41,7 @@ const addReview = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     }
 });
 exports.addReview = addReview;
+//retrive the review of the book using id
 const getreview = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { id } = req.params;
     try {
@@ -61,6 +63,7 @@ const getreview = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     }
 });
 exports.getreview = getreview;
+//Logged in user can delete the review of the book id passed in params
 const deletereview = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { id } = req.params;
     try {
@@ -79,6 +82,7 @@ const deletereview = (req, res) => __awaiter(void 0, void 0, void 0, function* (
     }
 });
 exports.deletereview = deletereview;
+//Logges in user can add ratings to the book
 const addRating = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { id } = req.params; //bookid
     const { rating } = req.body;
@@ -98,6 +102,7 @@ const addRating = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     }
 });
 exports.addRating = addRating;
+//Retrieve the rating of the particular book
 const getRating = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { id } = req.params;
     try {
@@ -121,9 +126,10 @@ exports.getRating = getRating;
 const payment = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const accessToken = process.env.GoCardlessAccessToken;
     const client = new client_1.GoCardlessClient(accessToken, constants_1.Environments.Sandbox);
+    //gocardless code for customer retrieval
     try {
         const listResponse = yield client.customers.list({
-            limit: '10', // Example parameter, adjust as needed
+            limit: '10',
         });
         const customers = listResponse.customers;
         console.log(customers);
@@ -135,32 +141,36 @@ const payment = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     }
 });
 exports.payment = payment;
+//Create customer,mandate for that customer and make payment for the bookid passed in params
 const createPayment = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const accessToken = process.env.GoCardlessAccessToken;
     const client = new client_1.GoCardlessClient(accessToken, constants_1.Environments.Sandbox);
     const { id } = req.user;
     const { bookId } = req.params;
     try {
+        //user data retrived for that loggedin user id
         const user = yield User_1.default.findByPk(id);
         if (!user) {
             res.status(404).json({ error: 'User not found' });
             return;
         }
+        //book data retrieved for that bookid which passed in params
         const book = yield books_1.default.findByPk(bookId);
         if (!book) {
             res.status(404).json({ error: 'Book not found' });
             return;
         }
-        //  Create a customer
+        //  Create a customer 
         const customerResponse = yield client.customers.create({
             given_name: user.dataValues.name,
-            family_name: "Khatal", // Ensure this field is available
+            family_name: "Singh", // Ensure this field is available
             email: user.dataValues.email,
             address_line1: '123 Main Street',
             city: 'London',
             postal_code: 'E1 8QS',
             country_code: 'GB',
         });
+        //return data
         const customerData = {
             id: customerResponse.id,
             given_name: customerResponse.given_name,
@@ -183,7 +193,7 @@ const createPayment = (req, res) => __awaiter(void 0, void 0, void 0, function* 
                 customer_bank_account: bankAccountResponse.id, // Ensure it's a string
             },
         });
-        //  Create a payment
+        //  Create a payment for book id passed in params
         const paymentResponse = yield client.payments.create({
             amount: book.dataValues.price,
             currency: 'GBP',
@@ -196,6 +206,7 @@ const createPayment = (req, res) => __awaiter(void 0, void 0, void 0, function* 
             res.json({ message: "Payment not done" });
             return;
         }
+        //if payment successfully done then order get created and added in payment table
         const order = yield Payment_1.default.create({
             bookid: bookId, userid: id, amount: book.dataValues.price, status: 'Paid'
         });
@@ -213,6 +224,7 @@ const createPayment = (req, res) => __awaiter(void 0, void 0, void 0, function* 
     }
 });
 exports.createPayment = createPayment;
+// Retrieval of all order of logged in customer
 const getorder = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const id = req.user.id;
     try {

@@ -28,7 +28,7 @@ Rating.init({
     }
 }, {
     sequelize: config_1.default,
-    tableName: "Review",
+    tableName: "Rating",
     timestamps: true
 });
 exports.default = Rating;

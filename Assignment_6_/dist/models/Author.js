@@ -20,15 +20,18 @@ Author.init({
     },
     bio: {
         type: sequelize_1.DataTypes.STRING,
-        allowNull: false
+        allowNull: false,
+        defaultValue: 'Bio for author'
     },
     birthdate: {
         type: sequelize_1.DataTypes.STRING,
-        allowNull: false
+        allowNull: false,
+        defaultValue: '1999-10-27'
     },
     isSystemUser: {
         type: sequelize_1.DataTypes.BOOLEAN,
-        allowNull: false
+        allowNull: false,
+        defaultValue: false
     }
 }, {
     sequelize: config_1.default, tableName: "Author", timestamps: true

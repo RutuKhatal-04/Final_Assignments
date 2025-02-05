@@ -15,5 +15,5 @@ app.use('/', authroutes_1.default);
 app.use('/admin', (0, auth_1.authenticatejwt)("Admin"), authroutes_1.default);
 app.use('/user', (0, auth_1.authenticatejwt)("User"), authroutes_1.default);
 app.listen(PORT, () => {
-    console.log("Server started at port", PORT);
+    console.log("Server started at port ", PORT);
 });

@@ -7,7 +7,9 @@ import Author from "../models/Author";
 
 
 
-//http://localhost:8000/book?page=20&size=10
+//http://localhost:8000/book?page=20&size=10 
+
+//For getting the data of book from 3rd party api as google developer api and using axios (Pagination also implemented in it)
 export const getBooklist=async(req:Request,res:Response)=>{
 
     const {page,size}=req.query;
@@ -71,7 +73,7 @@ const response=await axios.get('https://www.googleapis.com/books/v1/volumes?q=fl
 
 
 
-
+//getting book 
 
 export const getBook=async(req:Request,res:Response)=>{
   const {id}=req.params;
@@ -82,7 +84,8 @@ export const getBook=async(req:Request,res:Response)=>{
 
 }
 
-
+//Only admin can add the books 
+//http://localhost:8000/admin/addbook
 export const addBook=async(req:Request,res:Response)=>{
   const {bookCode, title, authors,description,publishedDate,price}=req.body;
 try{
@@ -98,21 +101,44 @@ try{
 
 }
 
-export const booklist=async(req:Request,res:Response)=>{
-  const data=await Book.findAll({
-    order: [['id', 'ASC']]    //If not specified it gives output but not in serialized order as in db
-});
-  if (!data) {
-    res.status(404).json({ message: "User not found" });
-    return;
-    
 
- }
-  const dataLength = data.length;
-  console.log('length',dataLength);
-  res.json({data,length:dataLength});
-}
 
+//retrieve the list of book but using pagination
+export const booklist = async (req: Request, res: Response) => {
+  const { page = '1', size = '10' } = req.query; // Default to page 1 and size 10 if not provided
+  const limit = parseInt(size as string);
+  const offset = (parseInt(page as string) - 1) * limit;
+
+  try {
+    const data = await Book.findAll({
+      order: [['id', 'ASC']], // Order by ID in ascending order
+      limit: limit,
+      offset: offset,
+    });
+
+    if (!data) {
+      res.status(404).json({ message: "Books not found" });
+      return;
+    }
+
+    const totalBooks = await Book.count(); // Get the total number of books
+    const totalPages = Math.ceil(totalBooks / limit); // Calculate the total number of pages
+
+    res.json({
+      data,
+      totalBooks,
+      totalPages,
+      currentPage: parseInt(page as string),
+      pageSize: limit,
+    });
+  } catch (error) {
+    console.error('Error retrieving books:', error);
+    res.status(500).json({ error: 'Failed to retrieve books' });
+  }
+};
+
+
+//Retrival of user data
 export const getUserData=async(req:Request,res:Response)=>{
   const id=(req as any).user.id;
   const data=await User.findByPk(id);
@@ -121,7 +147,7 @@ export const getUserData=async(req:Request,res:Response)=>{
   res.json({message:"User data",data});
 }
 
-
+//admin can only delete the book
 export const deletebook=async(req:Request,res:Response)=>{
   const {id}=req.params;
   try{
@@ -140,7 +166,7 @@ catch(error){
 }
 
 
-
+//Only Admin can update the book
 
 export const updatebook= async (req: Request, res: Response) => {
   const bookId = req.params.id;
@@ -166,7 +192,7 @@ export const updatebook= async (req: Request, res: Response) => {
 };
 
 
-
+//For extracting the author list from the book table 
 export const extractAndInsertAuthors = async (req: Request, res: Response) => {
   try {
       // Fetch all books
@@ -190,12 +216,9 @@ export const extractAndInsertAuthors = async (req: Request, res: Response) => {
       // Convert the Set to an array before sending it in the response
       const authorsArray = Array.from(authorsSet);
 
-      // // Insert authors' names into the new Author table
-      // for (const authorName of authorsArray) {
-      //     await Author.findOrCreate({ where: { name: authorName } });
-      // }
+      
 
-      console.log('Authors have been successfully extracted and inserted.');
+      console.log('Authors have been successfully extracted ');
       res.json({ authors: authorsArray });
   } catch (error) {
       console.error('An error occurred:', error);
@@ -203,7 +226,7 @@ export const extractAndInsertAuthors = async (req: Request, res: Response) => {
   }
 };
 
-
+//Get list of author 
 
 export const getauthor=async(req:Request,res:Response)=>{
   try{
@@ -220,7 +243,7 @@ export const getauthor=async(req:Request,res:Response)=>{
   }
 }
 
-
+//For getting the  particular author data 
 
 export const getauthordata=async(req:Request,res:Response)=>{
   const {id}=req.params;
@@ -239,7 +262,7 @@ export const getauthordata=async(req:Request,res:Response)=>{
 }
 
 
-
+//Admin can only add author
 export const addauthor=async(req:Request,res:Response)=>{
   const{name,bio,birthdate,isSystemUser}=req.body;
   try{
@@ -255,6 +278,8 @@ export const addauthor=async(req:Request,res:Response)=>{
     return;}
 }
 
+
+//admin can only update the author data
 export const updateauthor=async(req:Request,res:Response)=>{
   const {id}=req.params;
   const updatedata=req.body;
@@ -274,6 +299,9 @@ export const updateauthor=async(req:Request,res:Response)=>{
     res.json({error});
     return;}
 }
+
+
+//Admin can only delete the specific author by passing id in params
 export const deleteauthor=async(req:Request,res:Response)=>{
   const {id}=req.params;
   try{
