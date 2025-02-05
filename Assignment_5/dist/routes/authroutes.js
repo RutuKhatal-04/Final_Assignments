@@ -1,0 +1,14 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const express_1 = require("express");
+const register_login_1 = require("../controller/register_login");
+const Employee_functionalities_1 = require("../controller/Employee_functionalities");
+const router = (0, express_1.Router)();
+router.post('/admin_register', register_login_1.register);
+router.post('/admin_login', register_login_1.login);
+router.post('/addEmp', register_login_1.addEmp);
+router.post('/empLogin', Employee_functionalities_1.emplogin);
+router.post('/timesheet', Employee_functionalities_1.create_timesheet);
+router.get('/report', Employee_functionalities_1.report);
+router.post('/logout', Employee_functionalities_1.emplogout);
+exports.default = router;
