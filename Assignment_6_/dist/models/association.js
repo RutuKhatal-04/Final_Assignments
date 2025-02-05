@@ -1,0 +1,21 @@
+"use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+const books_1 = __importDefault(require("./books"));
+const Author_1 = __importDefault(require("./Author"));
+const User_1 = __importDefault(require("./User"));
+const Payment_1 = __importDefault(require("./Payment"));
+const Review_1 = __importDefault(require("./Review"));
+const Rating_1 = __importDefault(require("./Rating"));
+Author_1.default.hasMany(books_1.default, { foreignKey: "authorid" });
+books_1.default.belongsTo(Author_1.default, { foreignKey: "authorid" });
+User_1.default.hasMany(Payment_1.default, { foreignKey: "userid" });
+Payment_1.default.belongsTo(User_1.default, { foreignKey: "userid" });
+books_1.default.hasMany(Payment_1.default, { foreignKey: "bookid" });
+Payment_1.default.belongsTo(books_1.default, { foreignKey: "bookid" });
+books_1.default.hasMany(Review_1.default, { foreignKey: "bookid" });
+Review_1.default.belongsTo(books_1.default, { foreignKey: "bookid" });
+books_1.default.hasMany(Rating_1.default, { foreignKey: "bookid" });
+Rating_1.default.belongsTo(books_1.default, { foreignKey: "bookid" });
