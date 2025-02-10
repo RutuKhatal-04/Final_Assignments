@@ -48,10 +48,7 @@ const checkAndCreateTable = async () => {
   }
 };
 
-<<<<<<< HEAD
-// Ensure the table exists before handling any requests
-=======
->>>>>>> b7cb7d21f2a486a794a4d4fb950f86c107b2679c
+
 checkAndCreateTable();
 
 // Create
@@ -96,8 +93,4 @@ app.delete('/items/:name', async (req, res) => {
 
 app.listen(port, () => {
   console.log(`Server is running on http://localhost:${port}`);
-<<<<<<< HEAD
-});
-=======
-});
->>>>>>> b7cb7d21f2a486a794a4d4fb950f86c107b2679c
+
