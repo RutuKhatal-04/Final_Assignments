@@ -36,7 +36,7 @@ export const sendCustEmail = async (email:string,password:string): Promise<void>
     const transporter = nodemailer.createTransport({
         service: 'gmail',
         auth: {
-          user: 'rutukhatal13@gmail.com',
+          user: 'pqr@gmail.com',
           pass: ''
         }
       });
