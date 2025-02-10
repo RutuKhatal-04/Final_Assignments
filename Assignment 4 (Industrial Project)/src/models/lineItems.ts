@@ -7,7 +7,7 @@ class lineItem extends Model{
     public particular!:string;
     public amount!:number;
     
-    // public sow_id!:number;
+ 
 
 }
 
