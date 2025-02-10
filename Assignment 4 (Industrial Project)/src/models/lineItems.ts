@@ -28,10 +28,7 @@ lineItem.init({
         allowNull:false,
     },
   
-    // sow_id:{
-    //     type:DataTypes.INTEGER,
-    //     allowNull:false
-    // }
+   
 },{
     sequelize,
     modelName:"lineItems",
