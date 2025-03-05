@@ -25,4 +25,4 @@ export const sendpassEmail = async (email:string,password:string) => {
       })
 
     
-};
+}; 

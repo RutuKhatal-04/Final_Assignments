@@ -1,10 +1,10 @@
 import {Request,Response} from 'express';
 import bcrypt from 'bcrypt';
-import Admin from '../models/Admin';
+import Admin from '../models/adminModel';
 
 import jwt from 'jsonwebtoken';
 import { JsonWebTokenError } from 'jsonwebtoken';
-import User from '../models/User';
+import User from '../models/userModel';
 
 
 interface UserPayload{

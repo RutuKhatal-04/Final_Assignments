@@ -27,12 +27,11 @@ const register = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         res.status(201).json(organization);
     }
     catch (error) {
-        console.error('Error during registration:', error); // Log the error
+        console.error('Error during registration:', error);
         res.status(500).json({ error: 'Internal server error' });
     }
 });
 exports.register = register;
-// organization login based on roles
 const login = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { email, password } = req.body;
     try {

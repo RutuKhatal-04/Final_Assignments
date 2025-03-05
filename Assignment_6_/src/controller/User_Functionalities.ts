@@ -2,13 +2,13 @@ import {Request,response,Response} from "express";
 import { GoCardlessClient } from 'gocardless-nodejs/client';
 import constants from 'gocardless-nodejs/constants';
 import sequelize from "../database/config";
-import Review from "../models/Review";
-import Rating from "../models/Rating";
+import Review from "../models/reviewModel";
+import Rating from "../models/ratingModel";
 import { Environments } from "gocardless-nodejs/constants";
-import User from "../models/User";
-import Book from "../models/books";
+import User from "../models/userModel";
+import Book from "../models/booksModel";
 import { PaymentCurrency } from "gocardless-nodejs";
-import Payment from "../models/Payment";
+import Payment from "../models/paymentModel";
 
 
 

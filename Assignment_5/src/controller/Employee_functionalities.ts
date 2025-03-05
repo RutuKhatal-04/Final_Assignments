@@ -65,7 +65,7 @@ export const emplogin = async (req: Request, res: Response) => {
 
 
 
-
+ 
 
 export const create_timesheet = async (req: Request, res: Response) => {
     const { projectName, taskName, fromDate, toDate } = req.body;
@@ -202,7 +202,7 @@ export const emplogout=async(req:Request,res:Response)=>{
         res.status(404).json({ message: "Shift not found for today" });
         return;
     }
-    if(shiftdata.actualTime!=0 || shiftdata.startTime!=shiftdata.endTime){
+    if(shiftdata.actualTime!=0 && shiftdata.startTime!=shiftdata.endTime){
         res.json({message:"Already Logout"});
         return;
     }

@@ -1,10 +1,10 @@
 
-import Book from "./books";
-import Author from "./Author";
-import User from "./User";
-import Payment from "./Payment";
-import Review from "./Review";
-import Rating from "./Rating";
+import Book from "./booksModel";
+import Author from "./authorModel";
+import User from "./userModel";
+import Payment from "./paymentModel";
+import Review from "./reviewModel";
+import Rating from "./ratingModel";
 
 
 

@@ -20,7 +20,7 @@ const Shift_1 = __importDefault(require("../models/Shift"));
 const exceljs_1 = __importDefault(require("exceljs"));
 const sequelize_1 = require("sequelize");
 const TimeSheet_1 = __importDefault(require("../models/TimeSheet"));
-const secret = 'abc@#1234'; // Make sure to store this securely
+const secret = 'abc@#1234';
 const emplogin = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { email, password } = req.body;
     try {
@@ -64,7 +64,6 @@ const emplogin = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     }
 });
 exports.emplogin = emplogin;
-// Assuming you have a Timesheet model
 const create_timesheet = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { projectName, taskName, fromDate, toDate } = req.body;
     const empid = req.user.id;
@@ -79,7 +78,6 @@ const create_timesheet = (req, res) => __awaiter(void 0, void 0, void 0, functio
             return;
         }
         const shiftid = shift.id;
-        // Assuming you have a Timesheet model and you want to create a new timesheet entry
         const timesheet = yield TimeSheet_1.default.create({
             projectName,
             taskName,
@@ -98,13 +96,11 @@ const create_timesheet = (req, res) => __awaiter(void 0, void 0, void 0, functio
 exports.create_timesheet = create_timesheet;
 const report = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { payload_startdate, payload_enddate } = req.body;
-    // Validate and log the date values
     if (!payload_startdate || !payload_enddate) {
         res.json({ message: "Invalid date range" });
         return;
     }
     console.log(`Start Date: ${payload_startdate}, End Date: ${payload_enddate}`);
-    // Convert dates to ISO format if necessary
     const start = new Date(payload_startdate).toISOString();
     const end = new Date(payload_enddate).toISOString();
     const shiftdata = yield Shift_1.default.findAll({
@@ -118,10 +114,8 @@ const report = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const empdata = yield Employee_1.default.findAll({
         attributes: ["id", "name", "email", "assginedTime"]
     });
-    // Create a new workbook and add a worksheet
     const workbook = new exceljs_1.default.Workbook();
     const worksheet = workbook.addWorksheet('Shift Report');
-    // Add columns to the worksheet
     worksheet.columns = [
         { header: 'empid', key: 'empid', width: 10 },
         { header: 'date', key: 'date', width: 15 },
@@ -130,7 +124,6 @@ const report = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         { header: 'actual_hours', key: 'actual_hours', width: 15 },
         { header: 'comparison', key: 'comparison', width: 20 }
     ];
-    // Process shift data and add rows to the worksheet
     shiftdata.forEach(shift => {
         var _a;
         const empid = shift.empid;
@@ -159,7 +152,6 @@ const report = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
             comparison: compp
         });
     });
-    // Write the workbook to a file
     yield workbook.xlsx.writeFile('shift_report.xlsx');
     console.log("Data has been successfully saved to shift_report.xlsx");
     res.json({ message: "Data has been successfully saved to shift_report.xlsx" });
@@ -178,11 +170,10 @@ const emplogout = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         res.status(404).json({ message: "Shift not found for today" });
         return;
     }
-    if (shiftdata.actualTime != 0 || shiftdata.startTime != shiftdata.endTime) {
+    if (shiftdata.actualTime != 0 && shiftdata.startTime != shiftdata.endTime) {
         res.json({ message: "Already Logout" });
         return;
     }
-    // Update the shift end time and actual time
     shiftdata.endTime = (0, moment_timezone_1.default)().tz('Asia/Kolkata').toDate();
     const starthr = shiftdata.startTime.getHours();
     const endhr = shiftdata.endTime.getHours();
