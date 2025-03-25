@@ -58,7 +58,7 @@ export const login = async (req: Request, res: Response)=> {
 
 
 export const addEmp=async(req:Request,res:Response)=>{
-    const {name,email,password,assginedTime}=req.body;
+    const {name,email,password,assginedTime}=req.body; 
   
         const existingEmp = await Employee.findOne({
             where: {

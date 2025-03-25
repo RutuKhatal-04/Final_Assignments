@@ -1,8 +1,6 @@
 import { Router } from "express";
 import { BookController } from "../controller/bookController";
-
 import { inject, injectable } from "inversify";
-import { BlockReasonType } from "gocardless-nodejs";
 import { userLogin, userRegister } from "../controller/register_login";
 const router = Router();
 

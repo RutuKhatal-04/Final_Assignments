@@ -1,7 +1,6 @@
 import { inject, injectable } from "inversify";
 import { IAdminService } from "../interface/adminServiceInterface";
 import { IpgService } from "../database/pgInterface";
-import { Request, Response } from "express";
 import { ResponseDtos } from "../dtos/responseDtos";
 import { authorDtos } from "../dtos/authorDtos";
 import Author from "../models/authorModel";

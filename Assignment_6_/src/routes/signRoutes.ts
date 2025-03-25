@@ -1,6 +1,5 @@
 import { Router } from "express";
 import { inject, injectable } from "inversify";
-import { AdminController } from "../controller/adminController";
 import { SignController } from "../controller/SignController";
 
 @injectable()
