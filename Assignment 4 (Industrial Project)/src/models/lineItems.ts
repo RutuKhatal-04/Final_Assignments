@@ -7,7 +7,7 @@ class lineItem extends Model{
     public particular!:string;
     public amount!:number;
     
-    // public sow_id!:number;
+ 
 
 }
 
@@ -28,10 +28,7 @@ lineItem.init({
         allowNull:false,
     },
   
-    // sow_id:{
-    //     type:DataTypes.INTEGER,
-    //     allowNull:false
-    // }
+   
 },{
     sequelize,
     modelName:"lineItems",

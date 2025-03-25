@@ -3,13 +3,13 @@ export const sendWeatherEmail = async (content: string, p0: unknown) => {
     const transporter = nodemailer.createTransport({
       service: 'gmail',
       auth: {
-        user: 'rutukhatal13@gmail.com',
-        pass: 'jjqi kpff yfmk clte'
+        user: 'abc@gmail.com',
+        pass: ''
       }
     });
     const mailOptions = {
-      from: 'rutukhatal13@gmail.com',
-      to: 'rutukhatal04@gmail.com',
+      from: 'abc@gmail.com',
+      to: 'pqr@gmail.com',
       subject: 'Weather Data',
       html: content
     };

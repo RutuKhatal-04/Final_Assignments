@@ -7,12 +7,12 @@ export const sendEmail= async(orgname:string,custemail:string,particular:string,
         host:"smtp.gmail.com",
         port:465,
         auth: {
-          user: 'rutukhatal13@gmail.com',
+          user: 'pqr@gmail.com',
           pass: ''
         }
       });
       const mailOptions = {
-        from:'rutukhatal13@gmail.com',
+        from:'pqr@gmail.com',
         to: custemail,
         subject: 'Payment plans',
         text: `Hello , Pls pay the payment for ${particular} of organization ${orgname} of Rs. ${amt}`
@@ -36,12 +36,12 @@ export const sendCustEmail = async (email:string,password:string): Promise<void>
     const transporter = nodemailer.createTransport({
         service: 'gmail',
         auth: {
-          user: 'rutukhatal13@gmail.com',
+          user: 'pqr@gmail.com',
           pass: ''
         }
       });
       const mailOptions = {
-        from:'rutukhatal13@gmail.com',
+        from:'pqr@gmail.com',
         to: email,
         subject: 'Password details',
         text: `Hello , here is your password to login ${password}`
@@ -64,12 +64,12 @@ export const sendInvoiceMail=(custemail:string,orgemail:string,amt:number,partic
   const transporter = nodemailer.createTransport({
     service: 'gmail',
     auth: {
-      user: 'rutukhatal13@gmail.com',
+      user: 'pqr@gmail.com',
       pass: ''
     }
   });
   const mailOptions = {
-    from:'rutukhatal13@gmail.com',
+    from:'pqr@gmail.com',
     to: [orgemail,custemail],
     subject: 'Password details',
     text: `Congratulations ${custname} you have successfully paid Rs.${amt} for ${particulars} of Organization ${orgname},`
